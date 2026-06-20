@@ -104,8 +104,10 @@ export default function About() {
               className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full flex items-center justify-center"
               style={{ background: "linear-gradient(135deg, #7C3AED, #9F67F7)", boxShadow: "0 8px 32px rgba(124,58,237,0.5)" }}
             >
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+              {/* Medical cross — healthcare branding */}
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <rect x="11" y="2" width="10" height="28" rx="5" fill="white" />
+                <rect x="2" y="11" width="28" height="10" rx="5" fill="white" />
               </svg>
             </div>
           </div>

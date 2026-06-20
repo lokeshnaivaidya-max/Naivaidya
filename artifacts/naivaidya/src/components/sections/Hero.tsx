@@ -21,56 +21,60 @@ export default function Hero() {
         <source src={heroVideo} type="video/mp4" />
       </video>
 
-      {/* ── Vignette only — edges slightly darkened, centre stays clear ── */}
+      {/* ══════════════════════════════════════════════════
+          ZONE STRATEGY
+          Top 55%  → video safe zone — clear, no website text
+          Bottom 45% → website content zone — gradient backing
+          ══════════════════════════════════════════════════ */}
+
+      {/* Thin dark strip along the very top edge (navbar readability) */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute top-0 left-0 right-0 h-28 pointer-events-none"
+        style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, transparent 100%)" }}
+      />
+
+      {/* Content zone gradient — bottom 50%, fades into black so website text is always legible */}
+      <div
+        className="absolute left-0 right-0 bottom-0 pointer-events-none"
         style={{
-          background: [
-            "radial-gradient(ellipse 70% 70% at 50% 50%, transparent 30%, rgba(0,0,0,0.28) 100%)",
-            "linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 40%)",
-            "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 30%)",
-          ].join(", "),
+          height: "55%",
+          background: "linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.55) 45%, transparent 100%)",
         }}
       />
 
-      {/* ── Main hero content — anchored bottom-left ── */}
+      {/* ── Website content — anchored firmly to bottom ── */}
       <div
         className="absolute left-0 right-0 z-10 px-6 md:px-12"
-        style={{ bottom: "clamp(5rem, 8vh, 7rem)" }}
+        style={{ bottom: "clamp(4.5rem, 7vh, 6.5rem)" }}
       >
-        <div className="max-w-2xl">
-          {/* "Next-Gen AI Healthcare" badge */}
+        <div className="max-w-xl">
+
+          {/* Kicker badge */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.88 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5 text-xs font-bold uppercase tracking-[0.18em] text-white/90"
-            style={{
-              background: "rgba(109,40,217,0.45)",
-              backdropFilter: "blur(10px)",
-              WebkitBackdropFilter: "blur(10px)",
-              border: "1px solid rgba(255,255,255,0.18)",
-            }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-5 text-[10px] font-bold uppercase tracking-[0.2em] text-white/80 border border-white/15"
+            style={{ background: "rgba(0,0,0,0.35)", backdropFilter: "blur(8px)" }}
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-violet-300 animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
             Next-Gen AI Healthcare
           </motion.div>
 
-          {/* Headline — word-by-word blur-to-clear */}
-          <h1 className="mb-5 leading-none" style={{ letterSpacing: "-0.02em" }}>
+          {/* Headline — word-by-word reveal */}
+          <h1 className="mb-4" style={{ letterSpacing: "-0.02em", lineHeight: 1.1 }}>
             <span className="sr-only">The Last Minute Saviour</span>
-            <span aria-hidden="true" className="flex flex-wrap gap-x-[0.3em]">
+            <span aria-hidden="true" className="flex flex-wrap gap-x-[0.25em]">
               {words.map((word, i) => (
                 <motion.span
                   key={i}
-                  initial={{ opacity: 0, y: 24, filter: "blur(10px)" }}
+                  initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
                   animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  transition={{ duration: 0.85, delay: 0.55 + i * 0.14, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-white font-bold block"
+                  transition={{ duration: 0.7, delay: 0.5 + i * 0.12, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-white font-bold inline-block"
                   style={{
-                    fontSize: "clamp(2.6rem, 6.5vw, 5.5rem)",
-                    textShadow: "0 4px 32px rgba(0,0,0,0.55)",
-                    display: "inline-block",
+                    fontSize: "clamp(2.2rem, 5.5vw, 4.5rem)",
+                    textShadow: "0 2px 16px rgba(0,0,0,0.6)",
                   }}
                 >
                   {word}
@@ -79,48 +83,40 @@ export default function Hero() {
             </span>
           </h1>
 
-          {/* Glassmorphism description card */}
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
+          {/* Sub-line — compact, doesn't compete with video text */}
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="rounded-2xl px-5 py-4 mb-7 max-w-lg"
-            style={{
-              background: "rgba(255,255,255,0.08)",
-              backdropFilter: "blur(20px)",
-              WebkitBackdropFilter: "blur(20px)",
-              border: "1px solid rgba(255,255,255,0.14)",
-            }}
+            transition={{ duration: 0.7, delay: 1.1 }}
+            className="text-white/65 text-sm md:text-base mb-7 max-w-md leading-relaxed"
           >
-            <p className="text-white/80 text-sm md:text-base leading-relaxed font-light">
-              Making quality healthcare accessible to every Indian in their last minute of need — intelligent AI connecting patients, doctors, and hospitals instantly.
-            </p>
-          </motion.div>
+            AI-powered healthcare connecting patients, doctors, and hospitals — instantly.
+          </motion.p>
 
           {/* CTAs */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 1.5 }}
+            transition={{ duration: 0.7, delay: 1.35 }}
             className="flex flex-wrap gap-3"
           >
             <motion.button
               data-testid="button-join-revolution"
-              whileHover={{ scale: 1.05, boxShadow: "0 12px 40px rgba(109,40,217,0.6)" }}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => document.getElementById("waitlist")?.scrollIntoView({ behavior: "smooth" })}
-              className="relative overflow-hidden px-8 py-3.5 rounded-full font-bold text-white text-base btn-shimmer"
-              style={{ background: "linear-gradient(135deg, #5B21B6, #7C3AED, #8B5CF6)" }}
+              className="px-7 py-3 rounded-full font-bold text-white text-sm btn-shimmer relative overflow-hidden"
+              style={{ background: "linear-gradient(135deg, #5B21B6, #7C3AED)" }}
             >
               Join the Revolution
             </motion.button>
             <motion.button
               data-testid="button-discover"
-              whileHover={{ scale: 1.04 }}
+              whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               onClick={() => document.getElementById("problem")?.scrollIntoView({ behavior: "smooth" })}
-              className="px-8 py-3.5 rounded-full font-semibold text-white text-base border border-white/30 transition-all"
-              style={{ background: "rgba(255,255,255,0.09)", backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)" }}
+              className="px-7 py-3 rounded-full font-semibold text-white text-sm border border-white/25"
+              style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(8px)" }}
             >
               Discover How
             </motion.button>
@@ -132,18 +128,18 @@ export default function Hero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2.2 }}
-        className="absolute bottom-8 right-8 z-10 hidden md:flex flex-col items-center gap-2"
+        transition={{ delay: 2 }}
+        className="absolute bottom-7 right-8 z-10 hidden md:flex flex-col items-center gap-2"
       >
-        <span className="text-[9px] text-white/40 uppercase tracking-[0.25em]">Scroll</span>
+        <span className="text-[9px] text-white/35 uppercase tracking-[0.25em]">Scroll</span>
         <motion.div
-          animate={{ y: [0, 8, 0] }}
+          animate={{ y: [0, 7, 0] }}
           transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
-          className="w-px h-8 bg-gradient-to-b from-white/50 to-transparent"
+          className="w-px h-6 bg-gradient-to-b from-white/40 to-transparent"
         />
       </motion.div>
 
-      {/* ── White wave transition ── */}
+      {/* ── White wave into sections ── */}
       <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-10 pointer-events-none">
         <svg viewBox="0 0 1440 56" preserveAspectRatio="none" className="w-full h-10 md:h-14">
           <path d="M0,28 C360,56 1080,0 1440,28 L1440,56 L0,56 Z" fill="white" />
