@@ -32,12 +32,31 @@ export default function Vision() {
           transition={{ duration: 1 }}
           className="max-w-5xl mx-auto"
         >
+          {/* Healthcare pulse icon — replaces Gemini-like ✦ */}
           <motion.div
-            className="text-6xl mb-8 inline-block"
-            animate={{ rotate: [0, 10, -10, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="mb-8 flex justify-center"
+            animate={{ scale: [1, 1.08, 1] }}
+            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
           >
-            ✦
+            <div className="relative">
+              {/* Pulse rings */}
+              {[0, 1, 2].map((i) => (
+                <motion.div
+                  key={i}
+                  className="absolute inset-0 rounded-full border border-white/30"
+                  animate={{ scale: [1, 2 + i * 0.5], opacity: [0.6, 0] }}
+                  transition={{ duration: 2, repeat: Infinity, delay: i * 0.6, ease: "easeOut" }}
+                />
+              ))}
+              {/* Central medical cross */}
+              <div className="relative w-16 h-16 rounded-full bg-white/15 border border-white/30 flex items-center justify-center"
+                style={{ backdropFilter: "blur(8px)" }}>
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                  <rect x="10.5" y="2" width="7" height="24" rx="3.5" fill="white" />
+                  <rect x="2" y="10.5" width="24" height="7" rx="3.5" fill="white" />
+                </svg>
+              </div>
+            </div>
           </motion.div>
 
           <h2 className="text-3xl md:text-5xl lg:text-7xl font-bold mb-10 leading-tight tracking-tight text-white">

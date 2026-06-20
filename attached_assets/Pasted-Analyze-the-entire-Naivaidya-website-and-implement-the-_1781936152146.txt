@@ -1,0 +1,131 @@
+Analyze the entire Naivaidya website and implement the following changes exactly.
+
+====================================
+
+1. CUSTOM CURSOR IMPLEMENTATION
+   ====================================
+
+Remove the default browser cursor across the entire website.
+
+Create a custom cursor using the cursor symbol that is already present in the Naivaidya logo.
+
+Requirements:
+
+* Use the exact cursor style from the Naivaidya logo.
+* Maintain consistent branding between the logo and website cursor.
+* Smooth cursor movement.
+* Subtle hover animations.
+* Premium and professional appearance.
+* Works across all pages and sections.
+
+====================================
+2. VIDEO BRANDING FIX
+=====================
+
+Review all uploaded videos used throughout the website.
+
+The text currently appears as:
+
+"NAIVIDYA"
+
+This is incorrect.
+
+Replace every occurrence of:
+
+NAIVIDYA
+
+with:
+
+NAIVAIDYA
+
+Check all:
+
+* Hero videos
+* Background videos
+* Promotional videos
+* Uploaded media assets
+
+Ensure the correct spelling "NAIVAIDYA" is used everywhere.
+
+====================================
+3. REMOVE GEMINI-LIKE ELEMENTS
+==============================
+
+Remove all Gemini-like visual elements from the entire website.
+
+This includes:
+
+* Sparkles
+* Stars
+* Diamonds
+* AI-style decorative symbols
+* Gemini-inspired icons
+* Floating decorative elements that resemble Gemini branding
+
+Scan and remove them from:
+
+A) Uploaded videos
+B) Website sections
+C) Background animations
+D) Decorative UI elements
+
+Replace them with healthcare-focused visuals such as:
+
+* Cursor-based elements
+* Healthcare pulse animations
+* Medicine capsule outlines
+* Delivery indicators
+* Medical assistance graphics
+
+====================================
+4. SCREENSHOT SECTION FIX
+=========================
+
+In the section shown in the provided screenshot, there is a Gemini-like decorative icon visible above the content.
+
+Remove it completely.
+
+Replace it with a healthcare-themed visual that aligns with the Naivaidya brand.
+
+Do NOT use:
+
+* Stars
+* Diamonds
+* Sparkles
+* Gemini-like shapes
+* AI branding elements
+
+====================================
+5. BROWSER TAB FAVICON
+======================
+
+Use the existing Naivaidya logo as the website favicon.
+
+Requirements:
+
+* Show the Naivaidya logo in browser tabs.
+* Ensure favicon loads correctly on all pages.
+* Support desktop and mobile browsers.
+* Generate required favicon sizes if needed.
+* Verify the favicon is visible after deployment.
+
+====================================
+FINAL REQUIREMENT
+=================
+
+The website should contain zero Gemini-inspired visuals.
+
+No Gemini logos.
+No Gemini sparkles.
+No Gemini stars.
+No Gemini diamonds.
+No Gemini-like decorative elements.
+
+The final design should feel focused on:
+
+* Medicine delivery
+* Doctor consultations
+* Emergency healthcare support
+* The Last Minute Saviour
+
+Maintain a clean, premium, modern healthcare startup appearance throughout the website.

@@ -24,7 +24,11 @@ function EcosystemOrbit() {
         animate={{ scale: [1, 1.06, 1] }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
       >
-        <span className="text-lg">✦</span>
+        {/* Medical cross hub icon */}
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" className="mb-0.5">
+          <rect x="6.5" y="1" width="5" height="16" rx="2.5" fill="white" />
+          <rect x="1" y="6.5" width="16" height="5" rx="2.5" fill="white" />
+        </svg>
         <span>NAIVAIDYA</span>
       </motion.div>
 
