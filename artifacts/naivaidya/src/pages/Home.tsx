@@ -16,7 +16,6 @@ import Footer from "@/components/sections/Footer";
 export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-primary selection:text-white">
-      <CustomCursor />
       <Navbar />
       <main>
         <Hero />
