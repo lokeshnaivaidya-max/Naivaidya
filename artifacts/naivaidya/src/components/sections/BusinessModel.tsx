@@ -1,48 +1,73 @@
 import { motion } from "framer-motion";
 
+const streams = [
+  { title: "B2C Subscription", desc: "Premium patient access plans", icon: "👤", pct: 35 },
+  { title: "B2B SaaS", desc: "Enterprise software for hospitals & clinics", icon: "🏥", pct: 40 },
+  { title: "Diagnostic Tie-ups", desc: "Revenue share on diagnostic tests", icon: "🔬", pct: 15 },
+  { title: "Pharmacy Network", desc: "Fulfillment commissions & integrations", icon: "💊", pct: 10 },
+];
+
 export default function BusinessModel() {
   return (
-    <section id="business-model" className="py-32 relative bg-[#050508] overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent pointer-events-none" />
-      
+    <section
+      id="business-model"
+      className="py-32 relative overflow-hidden"
+      style={{ background: "linear-gradient(160deg, #F5F0FF 0%, #EDE9FE 50%, #F8F5FF 100%)" }}
+    >
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-20">
-          <motion.h2 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-sm font-bold text-primary uppercase tracking-widest mb-4"
+            className="text-sm font-bold text-[#7C3AED] uppercase tracking-widest mb-4"
           >
             The Economics
-          </motion.h2>
-          <motion.h3 
+          </motion.p>
+          <motion.h3
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl font-bold mb-6"
+            className="text-4xl md:text-5xl font-bold text-gray-900"
           >
-            Sustainable <span className="text-gradient">Growth.</span>
+            Sustainable{" "}
+            <span className="text-gradient">Growth.</span>
           </motion.h3>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            { title: "B2C Subscription", desc: "Premium patient access models" },
-            { title: "B2B SaaS", desc: "Enterprise software for hospitals" },
-            { title: "Diagnostic Tie-ups", desc: "Revenue share on tests" },
-            { title: "Pharmacy Integrations", desc: "Fulfillment commissions" }
-          ].map((item, i) => (
+          {streams.map((s, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 40, scale: 0.92 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="p-8 rounded-[2rem] border border-white/5 bg-black hover:border-primary/30 transition-colors flex flex-col justify-center text-center aspect-square"
+              transition={{ delay: i * 0.12, duration: 0.6 }}
+              whileHover={{ y: -10, boxShadow: "0 32px 64px rgba(124,58,237,0.22)" }}
+              className="bg-white rounded-[2rem] p-8 border border-purple-100 shadow-[0_4px_24px_rgba(124,58,237,0.09)] text-center group cursor-default"
             >
-              <h4 className="text-xl font-bold mb-3">{item.title}</h4>
-              <p className="text-gray-400 text-sm">{item.desc}</p>
+              <motion.div
+                className="text-5xl mb-4 inline-block"
+                animate={{ y: [0, -6, 0] }}
+                transition={{ duration: 3 + i * 0.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 }}
+              >
+                {s.icon}
+              </motion.div>
+              <h4 className="text-lg font-bold mb-2 text-gray-900">{s.title}</h4>
+              <p className="text-gray-500 text-sm mb-5">{s.desc}</p>
+
+              {/* Revenue bar */}
+              <div className="h-1.5 w-full bg-purple-100 rounded-full overflow-hidden">
+                <motion.div
+                  className="h-full rounded-full bg-gradient-to-r from-[#7C3AED] to-[#9F67F7]"
+                  initial={{ width: 0 }}
+                  whileInView={{ width: `${s.pct}%` }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1, delay: 0.3 + i * 0.15, ease: "easeOut" }}
+                />
+              </div>
+              <p className="text-xs text-[#7C3AED] font-bold mt-2">{s.pct}% revenue mix</p>
             </motion.div>
           ))}
         </div>
