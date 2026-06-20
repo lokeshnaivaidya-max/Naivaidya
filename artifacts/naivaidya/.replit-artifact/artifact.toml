@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "NAIVAIDYA"
+version = "1.0.0"
+id = "artifacts/naivaidya"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19682
+
+[services.development]
+run = "pnpm --filter @workspace/naivaidya run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/naivaidya", "run", "build" ]
+publicDir = "artifacts/naivaidya/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19682"
+BASE_PATH = "/"
