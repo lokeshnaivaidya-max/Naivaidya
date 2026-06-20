@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import heroVideo from "@assets/NAIVAIDYA_IMPORTANT__Display_1781933796036.mp4";
-import naivaidyaLogo from "@assets/naivaidya_logo.jpg";
 
 const words = ["The", "Last", "Minute", "Saviour"];
 
@@ -33,38 +32,6 @@ export default function Hero() {
           ].join(", "),
         }}
       />
-
-      {/* ── Navbar row (top) ── */}
-      <div className="absolute top-0 left-0 right-0 z-20 pt-6 px-6 md:px-12 flex items-center justify-between">
-        <motion.div
-          initial={{ opacity: 0, y: -16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1 }}
-          className="flex items-center gap-3"
-        >
-          <div className="w-10 h-10 rounded-xl overflow-hidden ring-1 ring-white/25 shadow-[0_0_20px_rgba(109,40,217,0.55)]">
-            <img src={naivaidyaLogo} alt="NAIVAIDYA" className="w-full h-full object-cover" />
-          </div>
-          <span className="font-bold text-white text-lg tracking-[0.18em] uppercase"
-            style={{ textShadow: "0 2px 12px rgba(0,0,0,0.7)" }}>
-            NAIVAIDYA
-          </span>
-        </motion.div>
-
-        <motion.button
-          initial={{ opacity: 0, y: -16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.97 }}
-          data-testid="hero-nav-waitlist"
-          onClick={() => document.getElementById("waitlist")?.scrollIntoView({ behavior: "smooth" })}
-          className="px-5 py-2 rounded-full text-sm font-bold text-white border border-white/25"
-          style={{ background: "rgba(109,40,217,0.55)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}
-        >
-          Join Waitlist
-        </motion.button>
-      </div>
 
       {/* ── Main hero content — anchored bottom-left ── */}
       <div
