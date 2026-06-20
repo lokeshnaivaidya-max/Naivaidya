@@ -49,18 +49,6 @@ export default function Hero() {
       >
         <div className="max-w-xl">
 
-          {/* Kicker badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full mb-5 text-[10px] font-bold uppercase tracking-[0.2em] text-white/80 border border-white/15"
-            style={{ background: "rgba(0,0,0,0.35)", backdropFilter: "blur(8px)" }}
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-            Next-Gen AI Healthcare
-          </motion.div>
-
           {/* Headline — word-by-word reveal */}
           <h1 className="mb-4" style={{ letterSpacing: "-0.02em", lineHeight: 1.1 }}>
             <span className="sr-only">The Last Minute Saviour</span>
