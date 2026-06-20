@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import naivaidyaLogo from "@assets/naivaidya_logo.jpg";
 
 export default function Vision() {
   return (
@@ -48,13 +49,10 @@ export default function Vision() {
                   transition={{ duration: 2, repeat: Infinity, delay: i * 0.6, ease: "easeOut" }}
                 />
               ))}
-              {/* Central medical cross */}
-              <div className="relative w-16 h-16 rounded-full bg-white/15 border border-white/30 flex items-center justify-center"
-                style={{ backdropFilter: "blur(8px)" }}>
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                  <rect x="10.5" y="2" width="7" height="24" rx="3.5" fill="white" />
-                  <rect x="2" y="10.5" width="24" height="7" rx="3.5" fill="white" />
-                </svg>
+              {/* NAIVAIDYA logo */}
+              <div className="relative w-16 h-16 rounded-full overflow-hidden"
+                style={{ border: "2px solid rgba(255,255,255,0.5)", boxShadow: "0 0 32px rgba(255,255,255,0.25)" }}>
+                <img src={naivaidyaLogo} alt="NAIVAIDYA" className="w-full h-full object-cover" />
               </div>
             </div>
           </motion.div>

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import naivaidyaLogo from "@assets/naivaidya_logo.jpg";
 
 const floatingCards = [
   { id: 0, label: "AI Triage", icon: "🧠", x: "60%", y: "8%", delay: 0 },
@@ -99,16 +100,12 @@ export default function About() {
               </motion.div>
             ))}
 
-            {/* Central logo glow */}
+            {/* Central NAIVAIDYA logo */}
             <div
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full flex items-center justify-center"
-              style={{ background: "linear-gradient(135deg, #7C3AED, #9F67F7)", boxShadow: "0 8px 32px rgba(124,58,237,0.5)" }}
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full overflow-hidden"
+              style={{ boxShadow: "0 8px 32px rgba(124,58,237,0.5)", border: "3px solid white" }}
             >
-              {/* Medical cross — healthcare branding */}
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                <rect x="11" y="2" width="10" height="28" rx="5" fill="white" />
-                <rect x="2" y="11" width="28" height="10" rx="5" fill="white" />
-              </svg>
+              <img src={naivaidyaLogo} alt="NAIVAIDYA" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>
