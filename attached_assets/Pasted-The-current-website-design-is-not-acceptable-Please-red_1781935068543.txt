@@ -1,0 +1,233 @@
+The current website design is not acceptable.
+
+Please redesign the entire website from scratch.
+
+Use the uploaded NAIVAIDYA logo as the single source of truth for branding.
+
+━━━━━━━━━━━━━━━━━━
+
+CRITICAL REQUIREMENTS
+
+Use the uploaded logo exactly as provided.
+
+Use the uploaded logo as:
+
+* Navbar logo
+* Hero logo
+* Footer logo
+* Browser favicon
+* Browser tab icon
+* Open Graph image
+
+Do not recreate the logo.
+
+Do not redraw the logo.
+
+Do not distort the logo.
+
+Do not change the logo colors.
+
+━━━━━━━━━━━━━━━━━━
+
+COLOR SYSTEM
+
+The current purple colors look cheap and overly saturated.
+
+Replace them.
+
+Extract the exact premium purple from the uploaded logo.
+
+Create a sophisticated luxury color system around that purple.
+
+Use:
+
+* White
+* Logo Purple
+* Very Light Purple
+* Soft Lavender Tints
+
+Avoid harsh gradients.
+
+Avoid neon purple.
+
+Avoid cartoon-style purple.
+
+The website should feel premium, elegant, and modern.
+
+━━━━━━━━━━━━━━━━━━
+
+HERO SECTION
+
+The uploaded hero video must remain visible.
+
+Do not cover the video with a strong purple overlay.
+
+The video should remain clearly visible.
+
+Use a transparent glass overlay only.
+
+The hero section should feel cinematic.
+
+The hero section should immediately impress visitors.
+
+━━━━━━━━━━━━━━━━━━
+
+UI / UX REDESIGN
+
+Current design feels generic.
+
+Create a premium healthcare technology experience.
+
+Use:
+
+* 3D floating elements
+* Floating capsules
+* Floating healthcare symbols
+* Interactive 3D cards
+* Ambient lighting
+* Glassmorphism
+* Layered depth
+* Soft shadows
+* Premium spacing
+
+The website should feel alive.
+
+━━━━━━━━━━━━━━━━━━
+
+ANIMATIONS
+
+Current animations are too basic.
+
+Upgrade everything.
+
+Add:
+
+* Cinematic text reveals
+* Character-by-character heading animations
+* Blur-to-clear transitions
+* Smooth section transitions
+* Scroll storytelling
+* Framer Motion effects
+* GSAP effects
+* Floating animations
+* Premium hover interactions
+
+Every section should feel interactive.
+
+━━━━━━━━━━━━━━━━━━
+
+TYPOGRAPHY
+
+Current typography feels generic.
+
+Use premium startup typography.
+
+Headings:
+
+Clash Display
+or
+General Sans
+or
+Sora
+
+Body:
+
+Inter
+or
+Manrope
+
+Create strong visual hierarchy.
+
+Large cinematic headlines.
+
+Beautiful spacing.
+
+Premium readability.
+
+━━━━━━━━━━━━━━━━━━
+
+LAYOUT
+
+Do not use boring rectangular sections.
+
+Create premium storytelling layouts.
+
+Each section should have:
+
+* Curved dividers
+* Organic transitions
+* White and purple split compositions
+* Dynamic layouts
+
+Every section should feel unique.
+
+━━━━━━━━━━━━━━━━━━
+
+CONTENT
+
+Use ONLY the content from the uploaded NAIVAIDYA pitch deck.
+
+Do not create fake statistics.
+
+Do not create fake testimonials.
+
+Do not create fake user counts.
+
+Do not invent information.
+
+Keep the website truthful.
+
+━━━━━━━━━━━━━━━━━━
+
+WAITLIST
+
+Keep the waitlist section.
+
+Make it premium.
+
+Glassmorphism design.
+
+Better spacing.
+
+Better animations.
+
+━━━━━━━━━━━━━━━━━━
+
+APP DOWNLOAD SECTION
+
+Add a dedicated final section.
+
+Title:
+
+Download the NAIVAIDYA App
+
+Include:
+
+* Google Play Button
+* App Store Button
+
+Premium 3D phone mockup.
+
+Smooth animations.
+
+━━━━━━━━━━━━━━━━━━
+
+FINAL GOAL
+
+The website should feel like:
+
+Apple × Stripe × Linear × Modern Healthcare Startup
+
+When someone visits the website, they should immediately feel:
+
+"This is a world-class healthcare technology company."
+
+No credits.
+
+No watermarks.
+
+No AI branding.
+
+No builder branding.
+
+Make the website visually stunning, memorable, interactive, cinematic, and premium.

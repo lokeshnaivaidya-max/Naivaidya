@@ -1,5 +1,3 @@
-import { motion } from "framer-motion";
-import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
@@ -12,18 +10,13 @@ import BusinessModel from "@/components/sections/BusinessModel";
 import Vision from "@/components/sections/Vision";
 import Waitlist from "@/components/sections/Waitlist";
 import FAQ from "@/components/sections/FAQ";
+import AppDownload from "@/components/sections/AppDownload";
 import Footer from "@/components/sections/Footer";
 
 export default function Home() {
-  useEffect(() => {
-    // Force dark mode
-    document.documentElement.classList.add("dark");
-  }, []);
-
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-primary selection:text-white">
       <Navbar />
-      
       <main>
         <Hero />
         <About />
@@ -36,8 +29,8 @@ export default function Home() {
         <Vision />
         <Waitlist />
         <FAQ />
+        <AppDownload />
       </main>
-      
       <Footer />
     </div>
   );
