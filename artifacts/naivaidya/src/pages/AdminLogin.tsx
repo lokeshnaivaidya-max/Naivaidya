@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import naivaidyaLogo from "@assets/naivaidya_logo.jpg";
@@ -12,6 +12,16 @@ export default function AdminLogin() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // Restore saved username on page load
+  useEffect(() => {
+    const savedUsername = localStorage.getItem("rememberedUsername");
+    const savedRemember = localStorage.getItem("rememberMe") === "true";
+    if (savedUsername && savedRemember) {
+      setUsername(savedUsername);
+      setRemember(true);
+    }
+  }, []);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -20,6 +30,14 @@ export default function AdminLogin() {
     setLoading(true);
     setTimeout(() => {
       if (username === "admin" && password === "admin123") {
+        // Save to localStorage if remember is checked
+        if (remember) {
+          localStorage.setItem("rememberedUsername", username);
+          localStorage.setItem("rememberMe", "true");
+        } else {
+          localStorage.removeItem("rememberedUsername");
+          localStorage.removeItem("rememberMe");
+        }
         setLocation("/admin/dashboard");
       } else {
         setError("Invalid credentials. Please try again.");
@@ -114,7 +132,14 @@ export default function AdminLogin() {
                   <input
                     type="checkbox"
                     checked={remember}
-                    onChange={e => setRemember(e.target.checked)}
+                    onChange={(e) => {
+                      const isChecked = e.target.checked;
+                      setRemember(isChecked);
+                      if (!isChecked) {
+                        localStorage.removeItem("rememberedUsername");
+                        localStorage.removeItem("rememberMe");
+                      }
+                    }}
                     className="w-4 h-4 rounded accent-[#7C3AED]"
                   />
                   <span className="text-sm text-gray-600">Remember me</span>
