@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import naivaidyaLogo from "@assets/naivaidya_logo.jpg";
-
+// OLD
+const naivaidyaLogo = "/naivaidya-logo.png";
 interface Admin {
   username: string;
   password: string;
