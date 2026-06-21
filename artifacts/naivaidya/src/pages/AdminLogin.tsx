@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
-import naivaidyaLogo from "@assets/naivaidya_logo.jpg";
+const naivaidyaLogo = "/naivaidya-logo.png";
 
 interface Admin {
   username: string;
