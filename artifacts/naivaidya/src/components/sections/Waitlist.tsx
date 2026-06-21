@@ -1,222 +1,222 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { useToast } from "@/hooks/use-toast";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-const formSchema = z.object({
-  fullName: z.string().min(2, "Full name is required"),
-  email: z.string().email("Invalid email address"),
-  mobile: z.string().min(10, "Valid mobile number is required"),
-  city: z.string().min(2, "City is required"),
-  message: z.string().optional(),
-  agree: z.boolean().refine((v) => v === true, "You must agree to receive updates"),
-});
+type Step = 1 | 2 | 3 | 4;
 
 export default function Waitlist() {
-  const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [step, setStep] = useState<Step>(1);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [sending, setSending] = useState(false);
+  const [verifying, setVerifying] = useState(false);
+  const [countdown, setCountdown] = useState(0);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: { fullName: "", email: "", mobile: "", city: "", message: "", agree: false },
-  });
+  useEffect(() => {
+    if (countdown > 0) {
+      const t = setTimeout(() => setCountdown((c) => c - 1), 1000);
+      return () => clearTimeout(t);
+    }
+  }, [countdown]);
 
-  function onSubmit() {
-    setIsSubmitting(true);
+  const validate1 = () => {
+    const e: Record<string, string> = {};
+    if (!name.trim()) e.name = "Name is required";
+    if (!phone.trim() || phone.length < 10) e.phone = "Valid phone required";
+    if (!email.trim() || !email.includes("@")) e.email = "Valid email required";
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
+  const sendOtp = () => {
+    if (!validate1()) return;
+    setSending(true);
     setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-      toast({ title: "Welcome to the future.", description: "You've successfully joined the NAIVAIDYA waitlist." });
-      form.reset();
+      setSending(false);
+      setStep(2);
+      setCountdown(30);
     }, 1200);
-  }
+  };
+
+  const resendOtp = () => {
+    setOtp(["", "", "", "", "", ""]);
+    setCountdown(30);
+    otpRefs.current[0]?.focus();
+  };
+
+  const handleOtpChange = (i: number, val: string) => {
+    if (!/^\d?$/.test(val)) return;
+    const next = [...otp];
+    next[i] = val;
+    setOtp(next);
+    if (val && i < 5) otpRefs.current[i + 1]?.focus();
+  };
+
+  const handleOtpKey = (i: number, e: React.KeyboardEvent) => {
+    if (e.key === "Backspace" && !otp[i] && i > 0) otpRefs.current[i - 1]?.focus();
+  };
+
+  const verifyOtp = () => {
+    if (otp.join("").length < 6) return;
+    setVerifying(true);
+    setTimeout(() => {
+      setVerifying(false);
+      setStep(4);
+    }, 1400);
+  };
+
+  const sv = {
+    hidden: { opacity: 0, x: 24 },
+    show: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: -24 },
+  };
 
   return (
-    <section id="waitlist" className="py-32 relative bg-white overflow-hidden">
-      {/* Purple glow blobs */}
-      <div className="absolute left-0 bottom-0 w-96 h-96 rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 70%)" }} />
-      <div className="absolute right-0 top-0 w-80 h-80 rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(124,58,237,0.06) 0%, transparent 70%)" }} />
-
+    <section id="waitlist" className="py-28 relative overflow-hidden" style={{ background: "linear-gradient(160deg,#F5F0FF 0%,#EDE9FE 50%,#F8F5FF 100%)" }}>
       <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16">
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-sm font-bold text-[#7C3AED] uppercase tracking-widest mb-4"
-            >
-              Join the Waitlist
+        <div className="max-w-lg mx-auto">
+          <div className="text-center mb-10">
+            <motion.p initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-sm font-bold text-[#7C3AED] uppercase tracking-widest mb-3">
+              Early Access
             </motion.p>
-            <motion.h3
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="text-4xl md:text-5xl font-bold text-gray-900"
-            >
-              Be the first to{" "}
-              <span className="text-gradient">experience it.</span>
+            <motion.h3 initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.07 }} className="text-4xl md:text-5xl font-bold text-gray-900">
+              Join the <span className="text-gradient">Waitlist.</span>
             </motion.h3>
+            <motion.p initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.13 }} className="text-gray-500 mt-3">
+              Be among the first to experience NAIVAIDYA when we launch.
+            </motion.p>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="grid md:grid-cols-2 gap-12 bg-white rounded-[3rem] p-8 md:p-14 border border-purple-100 shadow-[0_16px_80px_rgba(124,58,237,0.12)] relative overflow-hidden"
-          >
-            {/* Decorative corner glow */}
-            <div className="absolute top-0 right-0 w-64 h-64 rounded-full pointer-events-none"
-              style={{ background: "radial-gradient(circle, rgba(124,58,237,0.1) 0%, transparent 70%)", transform: "translate(30%, -30%)" }} />
+          {/* Progress dots */}
+          <div className="flex items-center justify-center gap-2 mb-8">
+            {[1, 2, 3, 4].map((s) => (
+              <div key={s} className={`h-1.5 rounded-full transition-all duration-400 ${step >= s ? "bg-[#7C3AED] w-8" : "bg-purple-200 w-4"}`} />
+            ))}
+          </div>
 
-            {/* Left: steps */}
-            <div className="relative z-10">
-              <p className="text-gray-500 mb-10 text-lg leading-relaxed">
-                Join our exclusive waitlist for early access to the NAIVAIDYA ecosystem. Rolling out to select cities and partners soon.
-              </p>
-              <div className="space-y-8">
-                {[
-                  { n: "1", title: "Sign Up", desc: "Provide your details to secure your place." },
-                  { n: "2", title: "Get Verified", desc: "Prioritised by region and medical need." },
-                  { n: "3", title: "Early Access", desc: "Experience healthcare transformed." },
-                ].map((step) => (
-                  <div key={step.n} className="flex items-start gap-5">
-                    <div
-                      className="w-12 h-12 rounded-2xl flex items-center justify-center font-bold text-white shrink-0 text-sm"
-                      style={{ background: "linear-gradient(135deg, #7C3AED, #9F67F7)" }}
-                    >
-                      {step.n}
+          <div className="bg-white rounded-2xl shadow-[0_8px_40px_rgba(124,58,237,0.12)] border border-purple-100 p-8 overflow-hidden">
+            <AnimatePresence mode="wait">
+              {/* Step 1 */}
+              {step === 1 && (
+                <motion.div key="s1" variants={sv} initial="hidden" animate="show" exit="exit" transition={{ duration: 0.25 }} className="space-y-4">
+                  <h4 className="font-bold text-gray-900 text-lg mb-5">Your Details</h4>
+                  {([
+                    { label: "Full Name", val: name, set: setName, key: "name", placeholder: "Aryan Sharma", type: "text" },
+                    { label: "Phone Number", val: phone, set: setPhone, key: "phone", placeholder: "+91 98765 43210", type: "tel" },
+                    { label: "Email Address", val: email, set: setEmail, key: "email", placeholder: "you@example.com", type: "email" },
+                  ] as const).map(({ label, val, set, key, placeholder, type }) => (
+                    <div key={key}>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1.5">{label}</label>
+                      <input
+                        type={type}
+                        value={val}
+                        onChange={(e) => { set(e.target.value); setErrors((p) => ({ ...p, [key]: "" })); }}
+                        placeholder={placeholder}
+                        className={`w-full px-4 py-3 rounded-xl border ${errors[key] ? "border-red-300 bg-red-50" : "border-gray-200"} focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 outline-none text-sm transition-all`}
+                      />
+                      {errors[key] && <p className="text-red-500 text-xs mt-1">{errors[key]}</p>}
                     </div>
-                    <div>
-                      <h4 className="font-bold text-gray-900 mb-1">{step.title}</h4>
-                      <p className="text-sm text-gray-500">{step.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Right: form */}
-            <div className="relative z-10">
-              {submitted ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="h-full flex flex-col items-center justify-center text-center gap-4 py-10"
-                >
-                  <div className="w-20 h-20 rounded-full flex items-center justify-center text-4xl"
-                    style={{ background: "linear-gradient(135deg, #7C3AED, #9F67F7)" }}>
-                    ✓
-                  </div>
-                  <h4 className="text-2xl font-bold text-gray-900">You're on the list!</h4>
-                  <p className="text-gray-500">We'll reach out when NAIVAIDYA launches near you.</p>
+                  ))}
+                  <motion.button
+                    onClick={sendOtp}
+                    disabled={sending}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full py-3.5 rounded-xl font-bold text-white text-sm mt-2 disabled:opacity-70 transition-all"
+                    style={{ background: "linear-gradient(135deg,#5B21B6,#7C3AED)" }}
+                  >
+                    {sending ? "Sending OTP…" : "Send OTP →"}
+                  </motion.button>
                 </motion.div>
-              ) : (
-                <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-                    <FormField control={form.control} name="fullName" render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-gray-700 font-semibold">Full Name</FormLabel>
-                        <FormControl>
-                          <Input
-                            data-testid="input-fullname"
-                            placeholder="Your full name"
-                            className="border-purple-200 focus:border-[#7C3AED] focus:ring-[#7C3AED]/20 rounded-xl bg-purple-50/50"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )} />
-
-                    <div className="grid grid-cols-2 gap-4">
-                      <FormField control={form.control} name="email" render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-gray-700 font-semibold">Email</FormLabel>
-                          <FormControl>
-                            <Input data-testid="input-email" placeholder="you@email.com" type="email"
-                              className="border-purple-200 focus:border-[#7C3AED] rounded-xl bg-purple-50/50" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )} />
-                      <FormField control={form.control} name="mobile" render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-gray-700 font-semibold">Mobile</FormLabel>
-                          <FormControl>
-                            <Input data-testid="input-mobile" placeholder="+91 XXXXX"
-                              className="border-purple-200 focus:border-[#7C3AED] rounded-xl bg-purple-50/50" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )} />
-                    </div>
-
-                    <FormField control={form.control} name="city" render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-gray-700 font-semibold">City</FormLabel>
-                        <FormControl>
-                          <Input data-testid="input-city" placeholder="Mumbai, Delhi, Bangalore…"
-                            className="border-purple-200 focus:border-[#7C3AED] rounded-xl bg-purple-50/50" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )} />
-
-                    <FormField control={form.control} name="message" render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-gray-700 font-semibold">Message <span className="text-gray-400 font-normal">(optional)</span></FormLabel>
-                        <FormControl>
-                          <Textarea data-testid="input-message" placeholder="Tell us about your needs…"
-                            className="border-purple-200 focus:border-[#7C3AED] rounded-xl bg-purple-50/50 resize-none" rows={3} {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )} />
-
-                    <FormField control={form.control} name="agree" render={({ field }) => (
-                      <FormItem className="flex flex-row items-start gap-3 p-4 border border-purple-100 rounded-xl bg-purple-50/50">
-                        <FormControl>
-                          <Checkbox
-                            data-testid="checkbox-agree"
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                            className="border-purple-300 data-[state=checked]:bg-[#7C3AED] data-[state=checked]:border-[#7C3AED]"
-                          />
-                        </FormControl>
-                        <FormLabel className="text-sm text-gray-600 font-normal leading-relaxed cursor-pointer">
-                          I agree to receive updates from NAIVAIDYA.
-                        </FormLabel>
-                      </FormItem>
-                    )} />
-
-                    <motion.button
-                      type="submit"
-                      data-testid="button-submit-waitlist"
-                      disabled={isSubmitting}
-                      whileHover={{ scale: 1.02, boxShadow: "0 12px 40px rgba(124,58,237,0.4)" }}
-                      whileTap={{ scale: 0.98 }}
-                      className="w-full h-12 rounded-xl font-bold text-white relative overflow-hidden btn-shimmer disabled:opacity-70 disabled:cursor-not-allowed"
-                      style={{ background: "linear-gradient(135deg, #7C3AED, #9F67F7)" }}
-                    >
-                      {isSubmitting ? "Processing…" : "Join Waitlist"}
-                    </motion.button>
-                  </form>
-                </Form>
               )}
-            </div>
-          </motion.div>
+
+              {/* Step 2: OTP sent */}
+              {step === 2 && (
+                <motion.div key="s2" variants={sv} initial="hidden" animate="show" exit="exit" transition={{ duration: 0.25 }} className="text-center space-y-5 py-2">
+                  <div className="w-16 h-16 rounded-full bg-purple-50 border border-purple-200 flex items-center justify-center mx-auto text-3xl">📱</div>
+                  <h4 className="font-bold text-gray-900 text-lg">OTP Sent!</h4>
+                  <p className="text-gray-500 text-sm">We've sent a 6-digit code to<br /><span className="font-semibold text-gray-900">{phone}</span></p>
+                  <motion.button
+                    onClick={() => setStep(3)}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full py-3.5 rounded-xl font-bold text-white text-sm"
+                    style={{ background: "linear-gradient(135deg,#5B21B6,#7C3AED)" }}
+                  >
+                    Enter OTP →
+                  </motion.button>
+                </motion.div>
+              )}
+
+              {/* Step 3: Enter OTP */}
+              {step === 3 && (
+                <motion.div key="s3" variants={sv} initial="hidden" animate="show" exit="exit" transition={{ duration: 0.25 }} className="space-y-6">
+                  <div className="text-center">
+                    <h4 className="font-bold text-gray-900 text-lg mb-1">Enter Verification Code</h4>
+                    <p className="text-gray-500 text-sm">6-digit code sent to {phone}</p>
+                  </div>
+                  <div className="flex gap-2.5 justify-center">
+                    {otp.map((digit, i) => (
+                      <input
+                        key={i}
+                        ref={(el) => { otpRefs.current[i] = el; }}
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={1}
+                        value={digit}
+                        onChange={(e) => handleOtpChange(i, e.target.value)}
+                        onKeyDown={(e) => handleOtpKey(i, e)}
+                        className="w-11 h-12 text-center text-xl font-bold rounded-xl border-2 border-gray-200 focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 outline-none text-gray-900 transition-all"
+                      />
+                    ))}
+                  </div>
+                  <motion.button
+                    onClick={verifyOtp}
+                    disabled={verifying || otp.join("").length < 6}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full py-3.5 rounded-xl font-bold text-white text-sm disabled:opacity-50 transition-all"
+                    style={{ background: "linear-gradient(135deg,#5B21B6,#7C3AED)" }}
+                  >
+                    {verifying ? "Verifying…" : "Verify OTP ✓"}
+                  </motion.button>
+                  <div className="text-center">
+                    {countdown > 0 ? (
+                      <p className="text-gray-400 text-sm">Resend OTP in <span className="font-bold text-[#7C3AED]">{countdown}s</span></p>
+                    ) : (
+                      <button onClick={resendOtp} className="text-[#7C3AED] text-sm font-semibold hover:underline">Resend OTP</button>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Step 4: Success */}
+              {step === 4 && (
+                <motion.div key="s4" variants={sv} initial="hidden" animate="show" exit="exit" transition={{ duration: 0.25 }} className="text-center py-4 space-y-4">
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 200, delay: 0.1 }}
+                    className="w-20 h-20 rounded-full bg-green-50 border-2 border-green-200 flex items-center justify-center mx-auto text-4xl"
+                  >
+                    ✅
+                  </motion.div>
+                  <h4 className="font-bold text-gray-900 text-2xl">You're on the list!</h4>
+                  <p className="text-gray-500 text-sm max-w-xs mx-auto">
+                    Welcome, <span className="font-semibold text-gray-900">{name}</span>! We'll notify you at{" "}
+                    <span className="font-semibold">{email}</span> when NAIVAIDYA launches in your city.
+                  </p>
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-50 border border-green-200 text-green-700 text-sm font-semibold">
+                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                    Verified & Registered
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </section>

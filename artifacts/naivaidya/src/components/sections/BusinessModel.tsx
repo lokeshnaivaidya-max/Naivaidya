@@ -43,14 +43,14 @@ export default function BusinessModel() {
               initial={{ opacity: 0, y: 40, scale: 0.92 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.12, duration: 0.6 }}
+              transition={{ delay: i * 0.08, duration: 0.35 }}
               whileHover={{ y: -10, boxShadow: "0 32px 64px rgba(124,58,237,0.22)" }}
               className="bg-white rounded-[2rem] p-8 border border-purple-100 shadow-[0_4px_24px_rgba(124,58,237,0.09)] text-center group cursor-default"
             >
               <motion.div
                 className="text-5xl mb-4 inline-block"
                 animate={{ y: [0, -6, 0] }}
-                transition={{ duration: 3 + i * 0.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
               >
                 {s.icon}
               </motion.div>
@@ -64,7 +64,7 @@ export default function BusinessModel() {
                   initial={{ width: 0 }}
                   whileInView={{ width: `${s.pct}%` }}
                   viewport={{ once: true }}
-                  transition={{ duration: 1, delay: 0.3 + i * 0.15, ease: "easeOut" }}
+                  transition={{ duration: 0.6, delay: 0.2 + i * 0.1, ease: "easeOut" }}
                 />
               </div>
               <p className="text-xs text-[#7C3AED] font-bold mt-2">{s.pct}% revenue mix</p>

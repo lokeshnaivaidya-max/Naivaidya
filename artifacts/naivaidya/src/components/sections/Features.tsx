@@ -71,7 +71,7 @@ export default function Features() {
               initial={{ opacity: 0, scale: 0.93 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.6 }}
+              transition={{ delay: i * 0.08, duration: 0.35 }}
               whileHover={{ y: -6, boxShadow: "0 24px 64px rgba(124,58,237,0.18)" }}
               className="p-10 rounded-[2rem] border border-purple-100 bg-white shadow-[0_4px_24px_rgba(124,58,237,0.07)] relative overflow-hidden group cursor-default"
             >
@@ -79,7 +79,7 @@ export default function Features() {
               <motion.div
                 className="text-5xl mb-6 inline-block"
                 animate={{ rotate: [0, 5, -5, 0] }}
-                transition={{ duration: 4 + i, repeat: Infinity, ease: "easeInOut", delay: i * 0.5 }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 }}
               >
                 {f.icon}
               </motion.div>

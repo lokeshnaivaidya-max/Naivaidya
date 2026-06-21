@@ -21,7 +21,7 @@ export default function Vision() {
             background: "radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%)",
           }}
           animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.9, 0.5] }}
-          transition={{ duration: 5 + i * 2, repeat: Infinity, ease: "easeInOut", delay: i * 1.5 }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: i * 0.5 }}
         />
       ))}
 
@@ -30,14 +30,14 @@ export default function Vision() {
           initial={{ opacity: 0, scale: 0.93 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 1 }}
+          transition={{ duration: 0.4 }}
           className="max-w-5xl mx-auto"
         >
           {/* Healthcare pulse icon — replaces Gemini-like ✦ */}
           <motion.div
             className="mb-8 flex justify-center"
             animate={{ scale: [1, 1.08, 1] }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           >
             <div className="relative">
               {/* Pulse rings */}
@@ -46,7 +46,7 @@ export default function Vision() {
                   key={i}
                   className="absolute inset-0 rounded-full border border-white/30"
                   animate={{ scale: [1, 2 + i * 0.5], opacity: [0.6, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, delay: i * 0.6, ease: "easeOut" }}
+                  transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.5, ease: "easeOut" }}
                 />
               ))}
               {/* NAIVAIDYA logo */}
@@ -66,7 +66,7 @@ export default function Vision() {
           <motion.div
             className="w-24 h-1 bg-white/40 mx-auto rounded-full mb-10"
             animate={{ scaleX: [1, 1.5, 1] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           />
 
           <motion.button

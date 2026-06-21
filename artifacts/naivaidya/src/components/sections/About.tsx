@@ -72,14 +72,14 @@ export default function About() {
                 boxShadow: "0 0 80px rgba(124,58,237,0.2)",
               }}
               animate={{ scale: [1, 1.1, 1], opacity: [0.7, 1, 0.7] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             />
 
             {/* Orbit ring */}
             <motion.div
               className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full border-2 border-dashed border-purple-200"
               animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
             />
 
             {/* Floating mini cards */}
@@ -91,7 +91,7 @@ export default function About() {
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.3 + card.delay, duration: 0.6 }}
+                transition={{ delay: 0.2 + card.delay * 0.5, duration: 0.35 }}
                 animate={{ y: [0, -10, 0] }}
                 whileHover={{ scale: 1.08, boxShadow: "0 16px 48px rgba(124,58,237,0.22)" }}
               >
