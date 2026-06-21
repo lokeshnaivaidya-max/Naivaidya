@@ -12,25 +12,30 @@ export default function AdminLogin() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Restore saved username on page load
+  // Auto-login if remembered
   useEffect(() => {
+    const isRemembered = localStorage.getItem("rememberMe") === "true";
     const savedUsername = localStorage.getItem("rememberedUsername");
-    const savedRemember = localStorage.getItem("rememberMe") === "true";
-    if (savedUsername && savedRemember) {
+
+    if (isRemembered && savedUsername) {
+      // Auto login
       setUsername(savedUsername);
-      setRemember(true);
+      setTimeout(() => {
+        setLocation("/admin/dashboard");
+      }, 500);
     }
-  }, []);
+  }, [setLocation]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     if (!username.trim()) { setError("Username is required."); return; }
     if (!password.trim()) { setError("Password is required."); return; }
+
     setLoading(true);
     setTimeout(() => {
       if (username === "admin" && password === "admin123") {
-        // Save to localStorage if remember is checked
+        // Save remember me
         if (remember) {
           localStorage.setItem("rememberedUsername", username);
           localStorage.setItem("rememberMe", "true");
@@ -43,7 +48,7 @@ export default function AdminLogin() {
         setError("Invalid credentials. Please try again.");
         setLoading(false);
       }
-    }, 1000);
+    }, 800);
   };
 
   return (
@@ -112,30 +117,20 @@ export default function AdminLogin() {
                     onClick={() => setShowPass(!showPass)}
                     className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700 transition-colors"
                   >
-                    {showPass ? (
-                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22"/>
-                      </svg>
-                    ) : (
-                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                        <circle cx="12" cy="12" r="3"/>
-                      </svg>
-                    )}
+                    {showPass ? "🙈" : "👁️"}
                   </button>
                 </div>
               </div>
 
-              {/* Remember + Forgot */}
+              {/* Remember Me */}
               <div className="flex items-center justify-between pt-1">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={remember}
                     onChange={(e) => {
-                      const isChecked = e.target.checked;
-                      setRemember(isChecked);
-                      if (!isChecked) {
+                      setRemember(e.target.checked);
+                      if (!e.target.checked) {
                         localStorage.removeItem("rememberedUsername");
                         localStorage.removeItem("rememberMe");
                       }
@@ -144,22 +139,14 @@ export default function AdminLogin() {
                   />
                   <span className="text-sm text-gray-600">Remember me</span>
                 </label>
-                <button type="button" className="text-sm text-[#7C3AED] hover:underline font-medium">
-                  Forgot password?
-                </button>
               </div>
 
-              {/* Error */}
               {error && (
-                <div className="flex items-center gap-2 text-red-600 text-sm bg-red-50 border border-red-200 rounded-xl px-4 py-3">
-                  <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/>
-                  </svg>
+                <div className="text-red-600 text-sm bg-red-50 border border-red-200 rounded-xl px-4 py-3">
                   {error}
                 </div>
               )}
 
-              {/* Submit */}
               <motion.button
                 type="submit"
                 disabled={loading}
@@ -168,15 +155,7 @@ export default function AdminLogin() {
                 className="w-full py-3.5 rounded-xl font-bold text-white text-sm transition-all disabled:opacity-60 mt-2"
                 style={{ background: "linear-gradient(135deg, #5B21B6, #7C3AED)" }}
               >
-                {loading ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
-                    </svg>
-                    Signing in…
-                  </span>
-                ) : "Sign In →"}
+                {loading ? "Signing in…" : "Sign In →"}
               </motion.button>
             </form>
           </div>
