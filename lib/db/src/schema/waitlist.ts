@@ -19,7 +19,11 @@ export const waitlistUsers = pgTable("waitlist_users", {
   city: text("city").notNull(),
   message: text("message").notNull().default(""),
   otpVerified: boolean("otp_verified").notNull().default(true),
+  status: text("status").notNull().default("Pending"),
+  contacted: boolean("contacted").notNull().default(false),
+  notes: text("notes").notNull().default(""),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
 }, (table) => [
   uniqueIndex("waitlist_users_email_unique").on(table.email),
 ]);
@@ -48,7 +52,11 @@ export const waitlistOtps = pgTable("waitlist_otps", {
 export const insertWaitlistUserSchema = createInsertSchema(waitlistUsers).omit({
   id: true,
   otpVerified: true,
+  status: true,
+  contacted: true,
+  notes: true,
   createdAt: true,
+  updatedAt: true,
 });
 
 export const insertWaitlistOtpSchema = createInsertSchema(waitlistOtps).omit({
