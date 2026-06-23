@@ -635,10 +635,10 @@ export default function AdminDashboard() {
               <img src={naivaidyaLogo} alt="NAIVAIDYA" className="w-full h-full object-cover" />
             </div>
             <div>
-              <div className="font-bold text-gray-900 text-sm leading-tight">NAIVAIDYA</div>
-              <div className="text-gray-400 text-xs">Waitlist CRM</div>
+              <h2 className="text-4xl font-bold mb-4">Welcome Back!</h2>
+              <p className="text-gray-600 text-lg">Total Registered Users: <b className="text-purple-600">{users.length}</b></p>
             </div>
-          </div>
+          )}
 
           <div className="flex items-center gap-2">
             <button
@@ -911,10 +911,6 @@ export default function AdminDashboard() {
               <div className={`text-2xl font-bold ${filterStatus === key ? "text-[#7C3AED]" : "text-gray-900"}`}>
                 {counts[key] ?? 0}
               </div>
-              <div className="text-[11px] text-gray-500 mt-0.5 truncate leading-tight">{label}</div>
-            </motion.button>
-          ))}
-        </div>
 
         <div className="bg-white rounded-2xl border border-purple-100/60 shadow-[0_4px_24px_rgba(124,58,237,0.07)] overflow-hidden">
           <div className="p-4 border-b border-purple-50 flex items-center gap-3">
@@ -1024,7 +1020,7 @@ export default function AdminDashboard() {
             )}
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }

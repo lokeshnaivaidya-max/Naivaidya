@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import naivaidyaLogo from "@assets/naivaidya_logo.jpg";
+const naivaidyaLogo = "/naivaidya-logo.png";
 
 export default function Vision() {
   return (

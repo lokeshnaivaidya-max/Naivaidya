@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import naivaidyaLogo from "@assets/naivaidya_logo.jpg";
+const naivaidyaLogo = "/naivaidya-logo.png";
 
 const faqItems = [
   { q: "What is NAIVAIDYA?", a: "An AI-powered healthcare platform connecting patients, doctors, and pharmacies in India." },

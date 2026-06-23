@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useLocation } from "wouter";
-import naivaidyaLogo from "@assets/naivaidya_logo.jpg";
+
+const naivaidyaLogo = "/naivaidya-logo.png";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);

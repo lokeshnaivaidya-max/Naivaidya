@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { AlertCircle, ArrowLeft, Eye, EyeOff, Loader2, LockKeyhole } from "lucide-react";
@@ -110,7 +110,6 @@ export default function AdminLogin() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35 }}
           className="w-full max-w-md"
         >
           <div className="text-center mb-8">
@@ -120,8 +119,8 @@ export default function AdminLogin() {
             >
               <img src={naivaidyaLogo} alt="NAIVAIDYA" className="w-full h-full object-cover" />
             </div>
-            <h1 className="text-2xl font-bold text-gray-900 tracking-wide">NAIVAIDYA</h1>
-            <p className="text-gray-500 text-sm mt-1 font-medium">Admin · Waitlist Portal</p>
+            <h1 className="text-3xl font-bold text-gray-900">NAIVAIDYA</h1>
+            <p className="text-gray-500 mt-1">Admin Portal</p>
           </div>
 
           <div className="bg-white rounded-2xl shadow-[0_8px_40px_rgba(124,58,237,0.1)] border border-purple-100 p-8">
@@ -134,26 +133,23 @@ export default function AdminLogin() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Username</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
                 <input
+                  type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="Enter username"
-                  autoComplete="username"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 outline-none text-gray-900 text-sm transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Password</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
                 <div className="relative">
                   <input
                     type={showPass ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter password"
-                    autoComplete="current-password"
-                    className="w-full px-4 py-3 pr-12 rounded-xl border border-gray-200 focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100 outline-none text-gray-900 text-sm transition-all"
                   />
                   <button
                     type="button"
@@ -186,10 +182,7 @@ export default function AdminLogin() {
               <motion.button
                 type="submit"
                 disabled={loading}
-                whileHover={{ scale: loading ? 1 : 1.02 }}
-                whileTap={{ scale: loading ? 1 : 0.98 }}
-                className="w-full py-3.5 rounded-xl font-bold text-white text-sm transition-all disabled:opacity-60 mt-2"
-                style={{ background: "linear-gradient(135deg, #5B21B6, #7C3AED)" }}
+                className="w-full py-3.5 bg-gradient-to-r from-purple-700 to-purple-600 text-white font-bold rounded-2xl hover:brightness-105 transition-all disabled:opacity-70"
               >
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">
