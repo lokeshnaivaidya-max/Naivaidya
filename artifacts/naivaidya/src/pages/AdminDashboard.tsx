@@ -425,6 +425,12 @@ export default function AdminDashboard() {
     setCredentialMessage("");
   };
 
+  const updateNewAdminField = <K extends keyof NewAdminForm>(key: K, value: NewAdminForm[K]) => {
+    setNewAdminForm((current) => ({ ...current, [key]: value }));
+    setAdminAccountError("");
+    setAdminAccountMessage("");
+  };
+
   const saveCredentials = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -492,10 +498,97 @@ export default function AdminDashboard() {
         confirmPassword: "",
       });
       setCredentialMessage(data.message);
+      await loadDashboard(nextSession.token);
     } catch (err) {
       setCredentialError(err instanceof Error ? err.message : "Unable to update admin credentials.");
     } finally {
       setCredentialSaving(false);
+    }
+  };
+
+  const createAdminAccount = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!session) {
+      return;
+    }
+
+    const username = newAdminForm.username.trim();
+    setAdminAccountError("");
+    setAdminAccountMessage("");
+
+    if (username.length < 3) {
+      setAdminAccountError("New admin username must be at least 3 characters.");
+      return;
+    }
+
+    if (newAdminForm.password.length < 8) {
+      setAdminAccountError("New admin password must be at least 8 characters.");
+      return;
+    }
+
+    if (newAdminForm.password !== newAdminForm.confirmPassword) {
+      setAdminAccountError("New admin password and confirmation do not match.");
+      return;
+    }
+
+    if (!newAdminForm.currentPassword) {
+      setAdminAccountError("Your current password is required to add an admin.");
+      return;
+    }
+
+    setAdminAccountSaving(true);
+
+    try {
+      const data = await adminFetch<CreateAdminResponse>("/api/admin/admins", session.token, {
+        method: "POST",
+        body: JSON.stringify({
+          username,
+          password: newAdminForm.password,
+          currentPassword: newAdminForm.currentPassword,
+        }),
+      });
+      setAdminAccounts((current) => [data.admin, ...current]);
+      setNewAdminForm({
+        username: "",
+        password: "",
+        confirmPassword: "",
+        currentPassword: "",
+      });
+      setAdminAccountMessage(data.message);
+    } catch (err) {
+      setAdminAccountError(err instanceof Error ? err.message : "Unable to add admin.");
+    } finally {
+      setAdminAccountSaving(false);
+    }
+  };
+
+  const removeAdminAccount = async (admin: AdminAccountSummary) => {
+    if (!session || admin.isCurrent) {
+      return;
+    }
+
+    const currentPassword = window.prompt(`Enter your current password to remove ${admin.username}`);
+
+    if (!currentPassword) {
+      return;
+    }
+
+    setDeletingAdminIds((current) => ({ ...current, [admin.id]: true }));
+    setAdminAccountError("");
+    setAdminAccountMessage("");
+
+    try {
+      const data = await adminFetch<DeleteAdminResponse>(`/api/admin/admins/${admin.id}`, session.token, {
+        method: "DELETE",
+        body: JSON.stringify({ currentPassword }),
+      });
+      setAdminAccounts((current) => current.filter((item) => item.id !== data.deletedId));
+      setAdminAccountMessage(data.message);
+    } catch (err) {
+      setAdminAccountError(err instanceof Error ? err.message : "Unable to remove admin.");
+    } finally {
+      setDeletingAdminIds((current) => ({ ...current, [admin.id]: false }));
     }
   };
 
@@ -675,6 +768,108 @@ export default function AdminDashboard() {
                 </button>
               </div>
             </form>
+
+            <div className="border-t border-purple-50 p-5">
+              <div className="flex flex-col lg:flex-row gap-6">
+                <div className="lg:w-1/2">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Users className="h-4 w-4 text-[#7C3AED]" />
+                    <h3 className="text-sm font-bold text-gray-900">Admins</h3>
+                    <span className="text-xs text-gray-400">({adminAccounts.length})</span>
+                  </div>
+                  <div className="space-y-2">
+                    {adminAccounts.map((admin) => (
+                      <div key={admin.id} className="flex items-center justify-between gap-3 rounded-xl border border-gray-100 px-4 py-3">
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-2">
+                            <p className="truncate text-sm font-bold text-gray-900">{admin.username}</p>
+                            {admin.isCurrent && (
+                              <span className="rounded-full bg-green-50 px-2 py-0.5 text-[11px] font-bold text-green-700">
+                                You
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-xs text-gray-400">Updated {formatDate(admin.updatedAt)}</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => void removeAdminAccount(admin)}
+                          disabled={admin.isCurrent || deletingAdminIds[admin.id]}
+                          className="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-1.5 text-xs font-semibold text-gray-500 hover:border-red-200 hover:text-red-500 disabled:cursor-not-allowed disabled:opacity-40"
+                        >
+                          {deletingAdminIds[admin.id] ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Trash2 className="h-3.5 w-3.5" />}
+                          Remove
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <form onSubmit={createAdminAccount} className="lg:w-1/2">
+                  <div className="flex items-center gap-2 mb-4">
+                    <UserPlus className="h-4 w-4 text-[#7C3AED]" />
+                    <h3 className="text-sm font-bold text-gray-900">Add Admin</h3>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-1.5">Username</label>
+                      <input
+                        value={newAdminForm.username}
+                        onChange={(e) => updateNewAdminField("username", e.target.value)}
+                        className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100"
+                        autoComplete="off"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-1.5">Your Password</label>
+                      <input
+                        type="password"
+                        value={newAdminForm.currentPassword}
+                        onChange={(e) => updateNewAdminField("currentPassword", e.target.value)}
+                        className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100"
+                        autoComplete="current-password"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-1.5">Password</label>
+                      <input
+                        type="password"
+                        value={newAdminForm.password}
+                        onChange={(e) => updateNewAdminField("password", e.target.value)}
+                        className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100"
+                        autoComplete="new-password"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-widest text-gray-400 mb-1.5">Confirm</label>
+                      <input
+                        type="password"
+                        value={newAdminForm.confirmPassword}
+                        onChange={(e) => updateNewAdminField("confirmPassword", e.target.value)}
+                        className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 outline-none focus:border-[#7C3AED] focus:ring-2 focus:ring-purple-100"
+                        autoComplete="new-password"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mt-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                    <div className="min-h-5">
+                      {adminAccountError && <p className="text-sm font-medium text-red-600">{adminAccountError}</p>}
+                      {adminAccountMessage && <p className="text-sm font-medium text-green-600">{adminAccountMessage}</p>}
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={adminAccountSaving}
+                      className="inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold text-white disabled:opacity-60"
+                      style={{ background: "linear-gradient(135deg, #5B21B6, #7C3AED)" }}
+                    >
+                      {adminAccountSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <UserPlus className="h-4 w-4" />}
+                      Add Admin
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
         )}
 
