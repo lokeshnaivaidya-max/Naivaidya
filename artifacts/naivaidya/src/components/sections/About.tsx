@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-const naivaidyaLogo = "/naivaidya-logo.png";
+const naivaidyaLogo = "/naivaidya_logo.png";
 
 const floatingCards = [
   { id: 0, label: "AI Triage", icon: "🧠", x: "60%", y: "8%", delay: 0 },

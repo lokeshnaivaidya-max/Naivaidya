@@ -17,7 +17,7 @@ import {
   UserPlus,
   Users,
 } from "lucide-react";
-import naivaidyaLogo from "@assets/naivaidya_logo.jpg";
+import naivaidyaLogo from "@assets/naivaidya_logo.png";
 
 type Status = "Pending" | "Contacted" | "Interested" | "Follow Up Required" | "Not Interested";
 

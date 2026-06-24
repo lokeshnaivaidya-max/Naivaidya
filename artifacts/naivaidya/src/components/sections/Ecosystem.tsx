@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import naivaidyaLogo from "@assets/naivaidya_logo.jpg";
+import naivaidyaLogo from "@assets/naivaidya_logo.png";
 import showcaseVideo from "@assets/can_u_do_it_now__1781933798403.mp4";
 
 const nodes = [
