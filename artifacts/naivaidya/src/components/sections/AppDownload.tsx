@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import naivaidyaLogo from "@assets/naivaidya_logo.jpg";
+import naivaidyaLogo from "@assets/naivaidya_logo.png";
 
 export default function AppDownload() {
   return (

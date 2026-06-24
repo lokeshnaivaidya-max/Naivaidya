@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { AlertCircle, ArrowLeft, Eye, EyeOff, Loader2, LockKeyhole } from "lucide-react";
-import naivaidyaLogo from "@assets/naivaidya_logo.jpg";
+import naivaidyaLogo from "@assets/naivaidya_logo.png";
 
 const API_BASE = import.meta.env.VITE_API_URL ?? "http://localhost:8080";
 const ADMIN_SESSION_KEY = "naivaidya_admin_session";
